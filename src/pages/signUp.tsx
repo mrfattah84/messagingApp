@@ -96,7 +96,7 @@ export default function SignUp() {
 
   return (
     <div className="flex h-full w-full items-center justify-center">
-      <div className="flex w-full h-full max-w-sm flex-col gap-4 rounded-large px-8 pb-10 pt-6">
+      <div className="flex w-full max-w-sm flex-col gap-4 rounded-large px-8 pb-10 pt-6">
         <img
           src="https://img.logoipsum.com/249.svg"
           alt="logo"

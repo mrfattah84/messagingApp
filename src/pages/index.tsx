@@ -1,9 +1,14 @@
-import React from 'react'
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Index() {
-  return (
-    <div>Index</div>
-  )
+  const navigate = useNavigate();
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    token || navigate("/signin");
+  }, [navigate]);
+
+  return <div>{localStorage.getItem("token")}</div>;
 }
 
-export default Index
+export default Index;
