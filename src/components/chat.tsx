@@ -5,9 +5,9 @@ import Message from "./message";
 import CustomUser from "./user";
 import { useRef, useEffect } from "react";
 
-function Chat({ chat, socket, setChat }) {
-  const loggedUser = JSON.parse(localStorage.getItem("user"));
-  const containerRef = useRef(null);
+function Chat({ chat, socket, setChat }: any) {
+  const loggedUser = JSON.parse(localStorage.getItem("user") || "");
+  const containerRef = useRef<any>(null);
 
   useEffect(() => {
     if (containerRef.current) {
@@ -15,7 +15,7 @@ function Chat({ chat, socket, setChat }) {
     }
   }, [chat]);
 
-  const sendMessage = (e) => {
+  const sendMessage = (e: any) => {
     e.preventDefault();
 
     socket.emit("sendMessage", {
@@ -24,7 +24,7 @@ function Chat({ chat, socket, setChat }) {
       senderId: loggedUser.id,
     });
 
-    socket.on("sendMessage", (data) => {
+    socket.on("sendMessage", (data: any) => {
       setChat({
         ...chat,
         messages: [...chat.messages, { ...data, sender: true }],
@@ -57,7 +57,7 @@ function Chat({ chat, socket, setChat }) {
         </div>
       )}
 
-      {chat.messages.map((item) => (
+      {chat.messages.map((item: any) => (
         <Message key={item.id} {...item} />
       ))}
 

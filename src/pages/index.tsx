@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import io from "socket.io-client";
 import Sidebar from "@/components/sidebar";
 import Chat from "@/components/chat";
 
-const socket = io.connect(import.meta.env.VITE_API_URL, {
+const socket = io(import.meta.env.VITE_API_URL, {
   extraHeaders: {
     Authorization: `Bearer ${localStorage.getItem("token")}`,
   },
@@ -14,7 +14,7 @@ function Index() {
   const navigate = useNavigate();
 
   const [chats, setChats] = useState([]);
-  const [chat, setChat] = useState({ messages: [], users: [] });
+  const [chat, setChat] = useState<any>({ messages: [], users: [] });
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -22,7 +22,7 @@ function Index() {
   }, [navigate]);
 
   useEffect(() => {
-    JSON.parse(localStorage.getItem("user"))?.setting?.darkMode
+    JSON.parse(localStorage.getItem("user") || "")?.setting?.darkMode
       ? document.body.classList.add("dark")
       : document.body.classList.remove("dark");
     return () => {
@@ -30,11 +30,11 @@ function Index() {
     };
   }, []);
 
-  socket.on("initData", (data) => {
+  socket.on("initData", (data: any) => {
     setChats(data);
   });
 
-  socket.on("newMessage", (data) => {
+  socket.on("newMessage", (data: any) => {
     setChat({
       ...chat,
       messages: [...chat.messages, data],

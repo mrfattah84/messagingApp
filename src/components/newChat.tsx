@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@heroui/button";
 import {
   Modal,
@@ -10,15 +10,15 @@ import {
 import { User } from "@heroui/user";
 import { Input } from "@heroui/input";
 
-function NewChat({ isOpen, onOpenChange, socket }) {
-  const [users, setUsers] = useState([]);
-  const [selectedUsers, setSelectedUsers] = useState([]);
+function NewChat({ isOpen, onOpenChange, socket }: any) {
+  const [users, setUsers] = useState<any>([]);
+  const [selectedUsers, setSelectedUsers] = useState<any>([]);
   const [name, setName] = useState("");
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse(localStorage.getItem("user") || "");
 
   useEffect(() => {
     socket.emit("getUsers");
-    socket.on("getUsers", (data) => {
+    socket.on("getUsers", (data: any) => {
       setUsers(data);
     });
   }, [isOpen]);
@@ -35,7 +35,7 @@ function NewChat({ isOpen, onOpenChange, socket }) {
           <>
             <ModalHeader className="flex flex-col gap-1">New Chat</ModalHeader>
             <ModalBody>
-              {users.map((user) => (
+              {users.map((user: any) => (
                 <User
                   className={`hover:bg-foreground-200 w-full justify-start px-5 py-3 rounded-none ${
                     selectedUsers.includes(user.id) ? "bg-foreground-200" : ""
@@ -44,7 +44,7 @@ function NewChat({ isOpen, onOpenChange, socket }) {
                   onClick={() => {
                     selectedUsers.includes(user.id)
                       ? setSelectedUsers(
-                          selectedUsers.filter((id) => id !== user.id)
+                          selectedUsers.filter((id: any) => id !== user.id)
                         )
                       : setSelectedUsers([...selectedUsers, user.id]);
                   }}

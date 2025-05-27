@@ -22,7 +22,7 @@ export default function SignUp() {
   const [specialValidated, setSpecialValidated] = useState(true);
   const [lengthValidated, setLengthValidated] = useState(true);
 
-  const validatePw = (value) => {
+  const validatePw = (value: string) => {
     setPw(value);
     const lower = new RegExp("(?=.*[a-z])");
     const upper = new RegExp("(?=.*[A-Z])");
@@ -61,13 +61,13 @@ export default function SignUp() {
   const [pw, setPw] = useState("");
   const [pwConfValidated, setPwConfValidated] = useState(true);
 
-  const validatePwConf = (value) => {
+  const validatePwConf = (value: string) => {
     value === pw ? setPwConfValidated(true) : setPwConfValidated(false);
   };
 
   const navigate = useNavigate();
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: any) => {
     event.preventDefault();
 
     try {

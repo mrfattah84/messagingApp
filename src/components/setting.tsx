@@ -1,21 +1,14 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Input } from "@heroui/input";
 import { Switch } from "@heroui/switch";
 import { Button } from "@heroui/button";
-import { Cloudinary } from "@cloudinary/url-gen";
 import imageCompression from "browser-image-compression";
 
-function Setting({ socket }) {
-  const loggedUser = JSON.parse(localStorage.getItem("user"));
+function Setting({ socket }: any) {
+  const loggedUser = JSON.parse(localStorage.getItem("user") || "");
   const [pfp, setPfp] = useState(loggedUser.img);
 
-  const cld = new Cloudinary({
-    cloud: {
-      cloudName: import.meta.env.VITE_CLOUD_NAME,
-    },
-  });
-
-  const uploadImg = async (e) => {
+  const uploadImg = async (e: any) => {
     setPfp(URL.createObjectURL(e.target.files[0]));
     const cloudName = import.meta.env.VITE_CLOUD_NAME;
     const uploadPreset = import.meta.env.VITE_UPLOAD_PRESET;
@@ -44,7 +37,7 @@ function Setting({ socket }) {
       });
   };
 
-  const saveChanges = (e) => {
+  const saveChanges = (e: any) => {
     e.preventDefault();
     socket.emit("saveChanges", {
       img: pfp,
@@ -53,7 +46,7 @@ function Setting({ socket }) {
       setting: { darkMode: loggedUser.setting.darkMode },
     });
 
-    socket.on("saveChanges", (data) => {
+    socket.on("saveChanges", (data: any) => {
       localStorage.setItem("user", JSON.stringify(data));
     });
   };

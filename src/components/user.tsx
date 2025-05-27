@@ -1,11 +1,10 @@
-import React from "react";
 import { User } from "@heroui/user";
 
-function CustomUser({ item, socket, setChat }) {
-  const openChat = (id) => () => {
+function CustomUser({ item, socket, setChat }: any) {
+  const openChat = (id: any) => () => {
     socket.emit("getChat", id);
 
-    socket.on("getChat", (data) => {
+    socket.on("getChat", (data: any) => {
       setChat(data);
     });
   };

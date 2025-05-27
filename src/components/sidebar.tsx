@@ -11,7 +11,7 @@ import CustomUser from "./user";
 import { useDisclosure } from "@heroui/modal";
 import { useState } from "react";
 
-function Sidebar({ chats, setChat, socket }) {
+function Sidebar({ chats, setChat, socket }: any) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [isSettingOpen, setIsSettingOpen] = useState(false);
 
@@ -27,6 +27,7 @@ function Sidebar({ chats, setChat, socket }) {
           </DropdownTrigger>
           <DropdownMenu>
             <DropdownItem
+              key={"1"}
               startContent={
                 isSettingOpen ? (
                   <Icon icon={"solar:chat-round-linear"} />
@@ -41,6 +42,7 @@ function Sidebar({ chats, setChat, socket }) {
               {isSettingOpen ? "Chats" : "Settings"}
             </DropdownItem>
             <DropdownItem
+              key={"2"}
               startContent={<Icon icon={"solar:logout-2-outline"} />}
               onPress={() => {
                 localStorage.clear();
@@ -56,7 +58,7 @@ function Sidebar({ chats, setChat, socket }) {
       {isSettingOpen ? (
         <Setting socket={socket} />
       ) : (
-        chats.map((item) => (
+        chats.map((item: any) => (
           <CustomUser
             key={item.id}
             item={item}

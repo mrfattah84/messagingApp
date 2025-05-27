@@ -1,7 +1,7 @@
-import { Avatar, AvatarGroup, AvatarIcon } from "@heroui/avatar";
-import React, { useEffect } from "react";
+import { Avatar } from "@heroui/avatar";
+import { useEffect } from "react";
 
-function Message(data) {
+function Message(data: any) {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -18,7 +18,7 @@ function Message(data) {
         src={
           data.sender !== true
             ? data.sender.img
-            : JSON.parse(localStorage.getItem("user")).img
+            : JSON.parse(localStorage.getItem("user") || "").img
         }
         classNames={{
           img: "object-contain",
