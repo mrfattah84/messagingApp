@@ -18,22 +18,26 @@ export default function SignIn() {
     event.preventDefault();
 
     try {
-      const respoinse = await fetch("http://localhost:3000/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          uname: event.target.uname.value,
-          pw: event.target.pw.value,
-        }),
-      });
+      const respoinse = await fetch(
+        `${import.meta.env.VITE_API_URL}/auth/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            uname: event.target.uname.value,
+            pw: event.target.pw.value,
+          }),
+        }
+      );
 
       if (!respoinse.ok) {
         alert("username or password is incorrect");
       } else {
         const data = await respoinse.json();
         localStorage.setItem("token", data.token); // Store the token in local storage
+        localStorage.setItem("user", JSON.stringify(data.user)); // Store the user ID in local storage
         navigate("/"); // Redirect to the home page
       }
     } catch (error) {
@@ -44,11 +48,8 @@ export default function SignIn() {
   return (
     <div className="flex h-full w-full items-center justify-center">
       <div className="flex w-full max-w-sm flex-col gap-4 rounded-large px-8 pb-10 pt-6">
-        <img
-          src="https://img.logoipsum.com/249.svg"
-          alt="logo"
-          className="w-16 mx-auto py-8"
-        />
+        <img className="w-16 mx-auto py-8" src="logo.svg" alt="Logo" />
+
         <p className="pb-4 text-left text-3xl font-semibold">
           Log In
           <span aria-label="emoji" className="ml-2" role="img">

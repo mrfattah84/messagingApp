@@ -69,25 +69,27 @@ export default function SignUp() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("Form submitted");
 
     try {
-      const respoinse = await fetch("http://localhost:3000/auth/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          uname: event.target.uname.value,
-          email: event.target.email.value,
-          pw: event.target.pw.value,
-        }),
-      });
+      const respoinse = await fetch(
+        `${import.meta.env.VITE_API_URL}/auth/signup`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            uname: event.target.uname.value,
+            email: event.target.email.value,
+            pw: event.target.pw.value,
+          }),
+        }
+      );
 
       if (!respoinse.ok) {
         alert("username or email already exists");
       } else {
-        navigate("/login");
+        navigate("/signin");
       }
     } catch (error) {
       console.error("Error during sign up:", error);
@@ -97,11 +99,8 @@ export default function SignUp() {
   return (
     <div className="flex h-full w-full items-center justify-center">
       <div className="flex w-full max-w-sm flex-col gap-4 rounded-large px-8 pb-10 pt-6">
-        <img
-          src="https://img.logoipsum.com/249.svg"
-          alt="logo"
-          className="w-16 mx-auto py-8"
-        />
+        <img className="w-16 mx-auto py-8" src="logo.svg" alt="Logo" />
+
         <p className="pb-4 text-left text-3xl font-semibold">
           Sign Up
           <span aria-label="emoji" className="ml-2" role="img">

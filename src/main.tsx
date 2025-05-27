@@ -10,7 +10,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <BrowserRouter>
       <Provider>
-        <main className="dark text-foreground bg-background h-screen">
+        <main className="h-screen text-foreground">
           <App />
         </main>
       </Provider>
