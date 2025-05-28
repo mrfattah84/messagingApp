@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button } from "@heroui/button";
 import { Input } from "@heroui/input";
 import { Checkbox } from "@heroui/checkbox";
 import { Link } from "@heroui/link";
 import { Form } from "@heroui/form";
 import { Icon } from "@iconify/react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 export default function SignIn() {
   const [isVisible, setIsVisible] = React.useState(false);
@@ -13,6 +13,12 @@ export default function SignIn() {
   const toggleVisibility = () => setIsVisible(!isVisible);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      navigate("/");
+    }
+  }, []);
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
@@ -38,7 +44,7 @@ export default function SignIn() {
         const data = await respoinse.json();
         localStorage.setItem("token", data.token); // Store the token in local storage
         localStorage.setItem("user", JSON.stringify(data.user)); // Store the user ID in local storage
-        navigate("/"); // Redirect to the home page
+        return <Navigate to={"/"} />;
       }
     } catch (error) {
       console.error("Error during sign in:", error);
