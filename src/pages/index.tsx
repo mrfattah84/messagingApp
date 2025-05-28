@@ -1,25 +1,25 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import io from "socket.io-client";
 import Sidebar from "@/components/sidebar";
 import Chat from "@/components/chat";
 
-const socket = io(import.meta.env.VITE_API_URL, {
-  extraHeaders: {
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
-  },
-});
+const token = localStorage.getItem("token");
+const socket =
+  token &&
+  io(import.meta.env.VITE_API_URL, {
+    extraHeaders: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
 function Index() {
-  const navigate = useNavigate();
+  if (!token) {
+    return <Navigate to={"/signin"} />;
+  }
 
   const [chats, setChats] = useState([]);
   const [chat, setChat] = useState<any>({ messages: [], users: [] });
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    token || navigate("/signin");
-  }, [navigate]);
 
   useEffect(() => {
     JSON.parse(localStorage.getItem("user") || "")?.setting?.darkMode
@@ -30,16 +30,18 @@ function Index() {
     };
   }, []);
 
-  socket.on("initData", (data: any) => {
-    setChats(data);
-  });
-
-  socket.on("newMessage", (data: any) => {
-    setChat({
-      ...chat,
-      messages: [...chat.messages, data],
+  socket &&
+    socket.on("initData", (data: any) => {
+      setChats(data);
     });
-  });
+
+  socket &&
+    socket.on("newMessage", (data: any) => {
+      setChat({
+        ...chat,
+        messages: [...chat.messages, data],
+      });
+    });
 
   const isMobile = window.innerWidth <= 767;
 

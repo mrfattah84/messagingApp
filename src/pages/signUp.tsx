@@ -211,7 +211,7 @@ export default function SignUp() {
           </Button>
         </form>
         <p className="text-center text-small">
-          <Link href="/login" size="sm">
+          <Link href="/signin" size="sm">
             Already have an account? Log In
           </Link>
         </p>
