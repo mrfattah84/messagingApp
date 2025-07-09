@@ -5,7 +5,7 @@ import { Checkbox } from "@heroui/checkbox";
 import { Link } from "@heroui/link";
 import { Form } from "@heroui/form";
 import { Icon } from "@iconify/react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function SignIn() {
   const [isVisible, setIsVisible] = React.useState(false);
@@ -44,7 +44,8 @@ export default function SignIn() {
         const data = await respoinse.json();
         localStorage.setItem("token", data.token); // Store the token in local storage
         localStorage.setItem("user", JSON.stringify(data.user)); // Store the user ID in local storage
-        return <Navigate to={"/"} />;
+        navigate("/"); // Redirect to the home page
+        window.location.reload(); // Reload the page to apply changes
       }
     } catch (error) {
       console.error("Error during sign in:", error);
