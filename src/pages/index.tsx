@@ -46,7 +46,7 @@ function Index() {
   const isMobile = window.innerWidth <= 767;
 
   return isMobile ? (
-    <div className="h-full flex ">
+    <div className="h-[calc(100dvh)] flex">
       {chat.users.length === 0 ? (
         <Sidebar chats={chats} setChat={setChat} socket={socket} />
       ) : (
@@ -54,7 +54,7 @@ function Index() {
       )}
     </div>
   ) : (
-    <div className="h-full flex ">
+    <div className="h-[calc(100dvh)] flex">
       <Sidebar chats={chats} setChat={setChat} socket={socket} />
       <Chat chat={chat} setChat={setChat} socket={socket} />
     </div>

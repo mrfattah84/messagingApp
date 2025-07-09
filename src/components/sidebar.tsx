@@ -68,7 +68,7 @@ function Sidebar({ chats, setChat, socket }: any) {
         ))
       )}
       <Icon
-        className="text-4xl absolute right-5 bottom-3 cursor-pointer z-10 text-primary hover:text-primary-500"
+        className="text-5xl absolute right-8 bottom-8 cursor-pointer z-10 text-primary hover:text-primary-500"
         icon="solar:pen-new-round-bold"
         onClick={onOpen}
       />
