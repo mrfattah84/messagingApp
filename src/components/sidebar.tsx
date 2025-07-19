@@ -16,8 +16,8 @@ function Sidebar({ chats, setChat, socket }: any) {
   const [isSettingOpen, setIsSettingOpen] = useState(false);
 
   return (
-    <div className="h-full w-full md:w-1/3 bg-background-secondary relative overflow-auto">
-      <div className="flex justify-between px-5 py-3.5  items-center">
+    <div className="h-full w-full md:w-1/3 bg-background-secondary relative flex flex-col">
+      <div className="flex justify-between px-5 py-3.5 items-center sticky top-0 z-10 bg-background-secondary">
         <Dropdown className="text-foreground">
           <DropdownTrigger>
             <Icon
@@ -55,24 +55,33 @@ function Sidebar({ chats, setChat, socket }: any) {
         </Dropdown>
         <img className="w-9" src="logo.svg" alt="Logo" />
       </div>
-      {isSettingOpen ? (
-        <Setting socket={socket} />
-      ) : (
-        chats.map((item: any) => (
-          <CustomUser
-            key={item.id}
-            item={item}
-            socket={socket}
-            setChat={setChat}
-          />
-        ))
-      )}
-      <Icon
-        className="text-5xl absolute right-8 bottom-8 cursor-pointer z-10 text-primary hover:text-primary-500"
-        icon="solar:pen-new-round-bold"
-        onClick={onOpen}
+      <div className="flex-1 overflow-auto">
+        {isSettingOpen ? (
+          <Setting socket={socket} />
+        ) : (
+          chats.map((item: any) => (
+            <CustomUser
+              key={item.id}
+              item={item}
+              socket={socket}
+              setChat={setChat}
+            />
+          ))
+        )}
+      </div>
+      <div className="absolute bottom-0 right-0 flex justify-end p-5">
+        <Icon
+          className="text-5xl cursor-pointer text-primary hover:text-primary-500 z-10"
+          icon="solar:pen-new-round-bold"
+          onClick={onOpen}
+        />
+      </div>
+      <NewChat
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        socket={socket}
+        created={chats}
       />
-      <NewChat isOpen={isOpen} onOpenChange={onOpenChange} socket={socket} />
     </div>
   );
 }
