@@ -18,6 +18,9 @@ export default function SignIn() {
     if (localStorage.getItem("token")) {
       navigate("/");
     }
+    alert(
+      "you might experience some issues with the app at first, please wait 50 seconds for the apps backend to load properly its because im using a free hosting service that takes a while to start up"
+    );
   }, []);
 
   const handleSubmit = async (event: any) => {
