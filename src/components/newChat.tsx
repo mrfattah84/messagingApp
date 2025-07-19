@@ -10,7 +10,7 @@ import {
 import { User } from "@heroui/user";
 import { Input } from "@heroui/input";
 
-function NewChat({ isOpen, onOpenChange, socket }: any) {
+function NewChat({ isOpen, onOpenChange, socket, created }: any) {
   const [users, setUsers] = useState<any>([]);
   const [selectedUsers, setSelectedUsers] = useState<any>([]);
   const [name, setName] = useState("");
@@ -35,29 +35,36 @@ function NewChat({ isOpen, onOpenChange, socket }: any) {
           <>
             <ModalHeader className="flex flex-col gap-1">New Chat</ModalHeader>
             <ModalBody>
-              {users.map((user: any) => (
-                <User
-                  className={`hover:bg-foreground-200 w-full justify-start px-5 py-3 rounded-none ${
-                    selectedUsers.includes(user.id) ? "bg-foreground-200" : ""
-                  }`}
-                  key={user.id}
-                  onClick={() => {
-                    selectedUsers.includes(user.id)
-                      ? setSelectedUsers(
-                          selectedUsers.filter((id: any) => id !== user.id)
-                        )
-                      : setSelectedUsers([...selectedUsers, user.id]);
-                  }}
-                  avatarProps={{
-                    src: user.img,
-                    classNames: {
-                      img: "object-contain",
-                    },
-                  }}
-                  name={user.uname || "Unknown"}
-                  description={user.bio}
-                />
-              ))}
+              {users.map(
+                (user: any) =>
+                  localStorage.getItem("user") !== null &&
+                  user.id !==
+                    JSON.parse(localStorage.getItem("user") || "").id && (
+                    <User
+                      className={`hover:bg-background-tertiary w-full justify-start px-5 py-3 rounded-none ${
+                        selectedUsers.includes(user.id)
+                          ? "bg-background-tertiary"
+                          : ""
+                      }`}
+                      key={user.id}
+                      onClick={() => {
+                        selectedUsers.includes(user.id)
+                          ? setSelectedUsers(
+                              selectedUsers.filter((id: any) => id !== user.id)
+                            )
+                          : setSelectedUsers([...selectedUsers, user.id]);
+                      }}
+                      avatarProps={{
+                        src: user.img,
+                        classNames: {
+                          img: "object-contain",
+                        },
+                      }}
+                      name={user.uname || "Unknown"}
+                      description={user.bio}
+                    />
+                  )
+              )}
             </ModalBody>
             <ModalFooter>
               <Input
@@ -72,15 +79,28 @@ function NewChat({ isOpen, onOpenChange, socket }: any) {
                 className="text-white"
                 color="primary"
                 onPress={async () => {
-                  if (selectedUsers.length === 0) return;
+                  let flag = false;
+                  if (selectedUsers.length === 0) flag = true;
                   if (selectedUsers.length > 1 && name.length === 0) {
                     alert("name is required for group chats");
-                    return;
+                    flag = true;
                   }
-                  socket.emit("newChat", {
-                    name,
-                    users: [...selectedUsers, user.id],
-                  });
+                  if (selectedUsers.length === 1) {
+                    users.forEach((user: any) => {
+                      if (user.id === selectedUsers[0]) {
+                        created.forEach((chat: any) => {
+                          if (chat.name === user.uname) {
+                            flag = true;
+                          }
+                        });
+                      }
+                    });
+                  }
+                  flag ||
+                    socket.emit("newChat", {
+                      name,
+                      users: [...selectedUsers, user.id],
+                    });
                   setSelectedUsers([]);
                   onClose();
                   window.location.reload();
